@@ -16,18 +16,26 @@
     // Setup options
     var compressor = kompressor || 1,
         settings = $.extend({
+          'dimension'      : 'width',
           'minFontSize' : Number.NEGATIVE_INFINITY,
           'maxFontSize' : Number.POSITIVE_INFINITY
-        }, options);
+        }, options),
+        lengthFn = (function () {
+            if (settings.dimension === 'height') {
+                return $.prototype.height;
+            } else {
+                return $.prototype.width;
+            }
+        }());
 
     return this.each(function(){
 
       // Store the object
       var $this = $(this);
 
-      // Resizer() resizes items based on the object width divided by the compressor * 10
+      // Resizer() resizes items based on a dimension of the object divided by the compressor * 10
       var resizer = function () {
-        $this.css('font-size', Math.max(Math.min($this.width() / (compressor*10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize)));
+        $this.css('font-size', Math.max(Math.min(lengthFn.apply($this) / (compressor*10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize)));
       };
 
       // Call once to set.
