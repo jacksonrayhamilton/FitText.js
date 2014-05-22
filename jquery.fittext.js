@@ -23,8 +23,8 @@
             // Resize according to this dimension.
             dimension   : 'width',
 
-            // If true, also set the line-height to the same value as the
-            // font-size.
+            // If true, also set the line-height to be the height of the
+            // container. Useful for pseudo-vertically-centering text.
             lineHeight  : false,
 
             // The ratio at which the font should be resized by the other
@@ -46,6 +46,8 @@
 
         $.each(settings, function (key, value) {
             if (key === 'minFontSize' || key === 'maxFontSize') {
+                // Do "what Jesus," or rather "what jQuery would do" and
+                // compensate egregious input.
                 settings[key] = parseFloat(value);
             }
         });
@@ -68,7 +70,7 @@
                 cssFn = function (fontSize) {
                     $this.css({
                         'font-size': fontSize,
-                        'line-height': fontSize + 'px'
+                        'line-height': $this.height() + 'px'
                     });
                 };
             } else {
