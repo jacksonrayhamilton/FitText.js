@@ -1,8 +1,9 @@
 /*global jQuery, _ */
 /*!
- * FitText.js 1.2
+ * FitText.js 1.2.1
  *
  * Copyright 2011, Dave Rupert http://daverupert.com
+ * Copyright 2013, Jackson Hamilton http://www.jacksonrayhamilton.com
  * Released under the WTFPL license
  * http://sam.zoy.org/wtfpl/
  *
@@ -66,11 +67,18 @@
 
             $this = $(this);
 
-            if (settings.lineHeight) {
+            if (typeof settings.lineHeight === 'boolean' && settings.lineHeight) {
                 cssFn = function (fontSize) {
                     $this.css({
                         'font-size': fontSize,
                         'line-height': $this.height() + 'px'
+                    });
+                };
+            } else if (typeof settings.lineHeight === 'function') {
+                cssFn = function (fontSize) {
+                    $this.css({
+                        'font-size': fontSize,
+                        'line-height': settings.lineHeight($this)
                     });
                 };
             } else {
@@ -80,10 +88,10 @@
             }
 
             var resizer = function () {
-                var length = lengthFn.apply($this);
+                var length = lengthFn.call($this);
 
                 if (settings.ratio) {
-                    var other = otherLengthFn.apply($this);
+                    var other = otherLengthFn.call($this);
                     var ratio = length / other;
                     if (ratio > settings.ratio) {
                         // If the other dimension is larger than the one you are
