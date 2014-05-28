@@ -1,6 +1,6 @@
 /*global jQuery, _ */
 /*!
- * FitText.js 1.2.1
+ * FitText.js 1.2.2
  *
  * Copyright 2011, Dave Rupert http://daverupert.com
  * Copyright 2013, Jackson Hamilton http://www.jacksonrayhamilton.com
@@ -24,8 +24,12 @@
             // Resize according to this dimension.
             dimension   : 'width',
 
+            // Manually-specifies the container to draw the dimension from.
+            container   : null,
+
             // If true, also set the line-height to be the height of the
             // container. Useful for pseudo-vertically-centering text.
+            // Can also be a function.
             lineHeight  : false,
 
             // The ratio at which the font should be resized by the other
@@ -63,22 +67,28 @@
 
         return this.each(function(){
 
-            var $this, cssFn;
+            var $this, $container, cssFn;
 
             $this = $(this);
+
+            if (settings.container) {
+                $container = settings.container;
+            } else {
+                $container = $this;
+            }
 
             if (typeof settings.lineHeight === 'boolean' && settings.lineHeight) {
                 cssFn = function (fontSize) {
                     $this.css({
                         'font-size': fontSize,
-                        'line-height': $this.height() + 'px'
+                        'line-height': $container.height() + 'px'
                     });
                 };
             } else if (typeof settings.lineHeight === 'function') {
                 cssFn = function (fontSize) {
                     $this.css({
                         'font-size': fontSize,
-                        'line-height': settings.lineHeight($this)
+                        'line-height': settings.lineHeight($container)
                     });
                 };
             } else {
@@ -88,10 +98,10 @@
             }
 
             var resizer = function () {
-                var length = lengthFn.call($this);
+                var length = lengthFn.call($container);
 
                 if (settings.ratio) {
-                    var other = otherLengthFn.call($this);
+                    var other = otherLengthFn.call($container);
                     var ratio = length / other;
                     if (ratio > settings.ratio) {
                         // If the other dimension is larger than the one you are
@@ -123,7 +133,7 @@
             resizer();
 
             // Resize on page resize.
-            $(window).on('resize.fittext orientationchange.fittext', _.debounce(resizer, 50));
+            $(window).on('resize.fittext orientationchange.fittext', resizer);
         });
 
     };
