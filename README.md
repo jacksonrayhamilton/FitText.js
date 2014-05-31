@@ -1,5 +1,5 @@
 # FitText.js, a jQuery plugin for inflating web type
-FitText makes font-sizes flexible. Use this plugin on your responsive design for ratio-based resizing of your headlines.
+FitText makes font-sizes flexible. Use this plugin on your responsive design for ratio-based resizing of text.
 
 ## How it works
 Here is a simple FitText setup:
@@ -8,34 +8,40 @@ Here is a simple FitText setup:
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script src="jquery.fittext.js"></script>
 <script>
-  jQuery("#responsive_headline").fitText();
+	jQuery("#responsive_headline").fitText();
 </script>
 ```
 
-Your text should now fluidly resize, by default: Font-size = 1/10th of the element's width.
+Your text should now fluidly resize. By default: font-size = 1.0 * the element's width.
 
-## The Compressor
-If your text is resizing poorly, you'll want to turn tweak up/down "The Compressor". It works a little like a guitar amp. The default is `1`.
+## Compression
+You can specify the percentage of the element's length to use for the font size. The default is 1.0 (100%).
 
 ```javascript
-jQuery("#responsive_headline").fitText(1.2); // Turn the compressor up   (resizes more aggressively)
-jQuery("#responsive_headline").fitText(0.8); // Turn the compressor down (resizes less aggressively)
+jQuery( "#responsive_headline" ).fitText({
+	compression: 0.5 // The font-size will be 50% of the element's width.
+});
+jQuery( "#responsive_box" ).fitText({
+	dimension: "height",
+	compression: 0.8 // The font-size will be 80% of the element's height.
+});
 ```
-
-This will hopefully give you a level of "control" that might not be pixel perfect, but resizes smoothly & nicely.
 
 ## minFontSize & maxFontSize
 FitText now allows you to specify two optional pixel values: `minFontSize` and `maxFontSize`. Great for situations when you want to preserve hierarchy.
 
 ```javascript
-jQuery("#responsive_headline").fitText(1.2, { minFontSize: '20px', maxFontSize: '40px' })
+jQuery( "#responsive_headline" ).fitText({
+	minFontSize: '20px',
+	maxFontSize: '40px'
+});
 ```
 
 ## CSS FAQ
 
 - **Make sure your container has a width!**
-  - `display: inline` elements don't have a width. Use `display: block` OR `display: inline-block`+ a specified width (i.e. `width: 100%`).
-  - `position:absolute` elements need a specified width as well.
+	- `display: inline` elements don't have a width. Use `display: block` OR `display: inline-block`+ a specified width (i.e. `width: 100%`).
+	- `position:absolute` elements need a specified width as well.
 - Tweak until you like it.
 - Set a No-JS fallback font-size in your CSS.
 
@@ -53,6 +59,7 @@ That's okay. Check out these handy non-jQuery versions maintained by other peopl
 
 ## In Use:
 - [Trent Walton](http://trentwalton.com)
+- [Yugioh Calculator](http://www.yugiohcalculator.com)
 
 If you want more exact fitting text, there are plugins for that! We recommend checking out [BigText](https://github.com/zachleat/BigText) by Zach Leatherman or [SlabText](http://www.frequency-decoder.com/demo/slabText/) by Brian McAllister.
 

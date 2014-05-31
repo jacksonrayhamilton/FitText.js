@@ -1,36 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
 	<title>FitText</title>
 
 	<style type="text/css">
 		body {
-		  background: #233a40; 
-		  color: #fff;
-		  font: 16px/1.8 sans-serif;
+			background: #233a40;
+			color: #fff;
+			font: 16px/1.8 sans-serif;
 		}
 		.container {
 			width: 84%;
-			margin:0 auto;
-			max-width:1140px;
+			margin: 0 auto;
+			max-width: 1140px;
 		}
 		header {
 			width: 100%;
-			margin:0px auto;
+			margin: 0px auto;
 		}
 		h1 {
-			background: rgba(0,0,0,0.2);
+			background: rgba(0, 0, 0, 0.2);
 			text-align: center;
 			color:#fff;
 			font: 95px/1 "Impact";
 			text-transform: uppercase;
 			display: block;
-			text-shadow:#253e45 -1px 1px 0,
-			#253e45 -2px 2px 0,
-			#d45848 -3px 3px 0,
-			#d45848 -4px 4px 0;
+			text-shadow: #253e45 -1px 1px 0,
+						#253e45 -2px 2px 0,
+						#d45848 -3px 3px 0,
+						#d45848 -4px 4px 0;
 			margin: 5% auto 5%;
+		}
+		.height-based-div,
+		.symbol-div {
+			display: inline-block;
+			vertical-align: top;
+			text-align: center;
+			background: rgba(0, 0, 0, 0.2);
+		}
+		.height-based-div {
+			height: 100px;
+		}
+		#symbol-div-container {
+			height: 100px;
+		}
+		#symbol-div-1 {
+			width: 20%;
+			height: 100%;
 		}
 	</style>
 
@@ -41,20 +58,49 @@
 
 	<div class="container">
 		<header>
-		<h1 id="fittext1">Squeeze with FitText</h1>
-		<h1 id="fittext2">Squeeze with FitText</h1>
-		<h1 id="fittext3">Squeeze with FitText</h1>
+			<h1 id="header">Squeeze with FitText</h1>
 		</header>
+		<p>
+			<div class="height-based-div" id="height-based-div-1">a</div>
+			<div class="height-based-div" id="height-based-div-2">b</div>
+		</p>
+		<div id="symbol-div-container">
+			<div class="symbol-div" id="symbol-div-1">&#9731;</div>
+		</div>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 	</div>
-	
+
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
  	<script src="jquery.fittext.js"></script>
 	<script type="text/javascript">
-		$("#fittext1").fitText();
-		$("#fittext2").fitText(1.2);
-		$("#fittext3").fitText(1.1, { minFontSize: '50px', maxFontSize: '75px' });
+		$(function onReady() {
+
+		$( "#header" ).fitText({
+			compression: 0.1
+		});
+
+		$( "#height-based-div-1" ).fitText({
+			compression: 0.75,
+			dimension: "height"
+		});
+
+		$( "#height-based-div-2" ).fitText({
+			compression: 0.5,
+			dimension: "height",
+			lineHeight: true
+		});
+
+		$( "#symbol-div-1" ).fitText({
+			compression: 0.8,
+			dimension: "height",
+			lineHeight: function ( $container ) {
+				return ($container.height() * 1.2) + "px";
+			},
+			ratio: 1
+		});
+
+		});
 	</script>
-	
+
 </body>
 </html>
