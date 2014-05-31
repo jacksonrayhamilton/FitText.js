@@ -1,12 +1,12 @@
 {
   "name": "FitText.js",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "main": "./jquery.fittext.js",
   "dependencies": {
     "jquery": ">= 1.6"
   },
   "ignore": [
-    "exemple.html",
+    "example.html",
     "CONTRIBUTING.md"
   ]
 }
